@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(git ls-remote *)",
+      "Bash(awk '{print $2}')",
+      "Bash(gnome-extensions list *)"
+    ]
+  }
+}
