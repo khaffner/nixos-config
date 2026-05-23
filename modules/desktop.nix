@@ -74,6 +74,7 @@
     firefox
     vscode
     signal-desktop
+    wireguard-tools
   ];
 
   # Add Flathub on activation so `flatpak install <app>` Just Works later.
