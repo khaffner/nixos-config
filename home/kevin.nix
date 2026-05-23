@@ -1,46 +1,55 @@
+# Home Manager Configuration for user 'kevin'
+#
+# This manages user-level configuration (dotfiles, shell, GNOME settings).
+# Changes here apply after: sudo nixos-rebuild switch
+#
+# Useful options to add:
+#   programs.git.* - Git config (userName, userEmail, aliases)
+#   programs.vim.* or programs.neovim.* - Editor config
+#   programs.firefox.* - Browser bookmarks/settings
+#   programs.bash.shellAliases - More shell aliases
+#   services.flatpak.packages - Add more flatpak apps
+
 { pkgs, ... }:
 
 {
-  # Per-user config managed by Home Manager. Loaded from
-  # hosts/mainLaptop/default.nix; if you add HM to other hosts later,
-  # extract the GNOME-only bits into a separate file.
-
   home.username = "kevin";
   home.homeDirectory = "/home/kevin";
 
-  # Pin to the release you first activated HM with and leave alone — same
-  # idea as system.stateVersion.
-  home.stateVersion = "26.05";
+  home.stateVersion = "26.05";  # Don't change this
 
   programs.home-manager.enable = true;
 
-  programs.bash = {                                                                                                                                                                                                                          
-    enable = true;                                                                                                                                                                                                                           
-    shellAliases = {                                                                                                                                                                                                                         
-      cls = "clear";                                                                                                                                                                                                                         
-    };                                                                                                                                                                                                                                       
+  # Bash shell configuration
+  programs.bash = {
+    enable = true;
+    shellAliases = {
+      cls = "clear";
+      # Add more aliases here, e.g.:
+      # ll = "ls -lah";
+      # gs = "git status";
+    };
   };                                                                                                                                                                                                                                         
                    
 
-  # GNOME Shell extensions need both the package installed AND the UUID
-  # listed in enabled-extensions below. The UUIDs are stable identifiers
-  # from extensions.gnome.org; don't confuse them with the nixpkgs attr.
+  # GNOME extensions - need both package here AND UUID in dconf below
   home.packages = with pkgs.gnomeExtensions; [
-    dash-to-panel
+    dash-to-panel  # UUID: dash-to-panel@jderose9.github.com
   ];
 
+  # GNOME settings via dconf
   dconf.settings = {
     "org/gnome/desktop/interface" = {
-      color-scheme = "prefer-dark";
+      color-scheme = "prefer-dark";  # Dark mode
     };
     "org/gnome/shell" = {
       enabled-extensions = [
-        "dash-to-panel@jderose9.github.com"
+        "dash-to-panel@jderose9.github.com"  # Must match package above
       ];
     };
   };
 
-  # Declarative flatpak management.
+  # Declarative flatpak management
   services.flatpak = {
     packages = [
       "org.raspberrypi.rpi-imager"
@@ -48,7 +57,7 @@
     ];
     update.auto = {
       enable = true;
-      onCalendar = "weekly";
+      onCalendar = "weekly";  # Auto-update flatpaks weekly
     };
   };
 }

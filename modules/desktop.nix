@@ -1,71 +1,80 @@
+# Desktop Module - GNOME, Steam, browsers, ThinkPad hardware
+#
+# Only imported by: configuration-laptop.nix
+#
+# Provides:
+#   - GNOME desktop environment
+#   - Audio (PipeWire)
+#   - Steam gaming
+#   - Browsers (Edge, Chrome, Firefox)
+#   - Flatpak support
+#   - ThinkPad hardware optimizations
+
 { pkgs, ... }:
 
 {
-  # Laptop / desktop module: GNOME, audio, browsers, Steam, ThinkPad hardware.
 
+  # Network management
   networking.networkmanager.enable = true;
   users.users.kevin.extraGroups = [ "networkmanager" ];
 
-  # X11 + GNOME (the Wayland session runs on top of this).
+  # GNOME Desktop (with Wayland support)
   services.xserver.enable = true;
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
-  services.xserver.xkb = {
-    layout = "no";
-    variant = "";
-  };
+  # Norwegian keyboard layout
+  services.xserver.xkb.layout = "no";
   console.keyMap = "no";
 
-  # Trim default GNOME apps. Keep utilitarian ones (text editor, calculator,
-  # system monitor, disks, screenshot, calendar, clocks, logs, file-roller).
+  # Remove unwanted default GNOME apps
   environment.gnome.excludePackages = with pkgs; [
-    epiphany         # GNOME Web (using Edge/Chrome instead)
-    geary            # email client
+    epiphany
+    geary
     gnome-music
     gnome-maps
     gnome-weather
     gnome-contacts
-    gnome-tour       # welcome tour
-    gnome-characters # character picker
-    yelp             # GNOME help browser
+    gnome-tour
+    gnome-characters
+    yelp
     simple-scan
   ];
 
-  # Audio via PipeWire.
+  # Audio via PipeWire (replaces PulseAudio)
   services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
+  security.rtkit.enable = true;  # Realtime priority
   services.pipewire = {
     enable = true;
     alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
+    alsa.support32Bit = true;  # For Steam games
+    pulse.enable = true;       # PulseAudio compatibility
   };
 
   services.printing.enable = true;
 
-  # Intel ThinkPad hardware.
-  hardware.cpu.intel.updateMicrocode = true;
-  hardware.graphics.enable32Bit = true;        # 32-bit GL/Vulkan for Steam
+  # Intel ThinkPad hardware support
+  hardware.cpu.intel.updateMicrocode = true;  # CPU microcode updates
+  hardware.graphics.enable32Bit = true;       # 32-bit graphics for Steam
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
-  services.fwupd.enable = true;                # `fwupdmgr update` for BIOS/firmware
-  services.thermald.enable = true;             # Intel thermal management
-  services.fprintd.enable = true;              # Fingerprint reader (no-op if absent)
+  services.fwupd.enable = true;               # Firmware updates via fwupdmgr
+  services.thermald.enable = true;            # Intel thermal management
+  services.fprintd.enable = true;             # Fingerprint reader
 
-  # Steam.
+  # Gaming - Steam
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
   };
-  programs.gamemode.enable = true;
+  programs.gamemode.enable = true;  # Performance mode for games
 
-  # Flatpak + xdg portals (required for Flatpak apps to integrate with GNOME).
+  # Flatpak support
   services.flatpak.enable = true;
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
+    extraPortals = [ pkgs.xdg-desktop-portal-gnome ];  # GNOME integration
   };
 
   environment.systemPackages = with pkgs; [
@@ -77,7 +86,7 @@
     wireguard-tools
   ];
 
-  # Add Flathub on activation so `flatpak install <app>` Just Works later.
+  # Auto-add Flathub repository on first boot
   system.activationScripts.flatpakSetup = {
     text = ''
       ${pkgs.flatpak}/bin/flatpak remote-add --if-not-exists flathub \
