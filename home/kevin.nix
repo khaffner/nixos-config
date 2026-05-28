@@ -34,10 +34,9 @@
 
   # GNOME extensions - need both package here AND UUID in dconf below
   home.packages = with pkgs.gnomeExtensions; [
-    dash-to-panel              # UUID: dash-to-panel@jderose9.github.com
-    appindicator               # UUID: appindicatorsupport@rgcjonas.gmail.com
-    # Note: gnome-wireguard-extension and system-monitor-tray may need manual installation
-    # if not available in nixpkgs. Check: https://extensions.gnome.org
+    dash-to-panel
+    appindicator
+    wireguard-vpn-extension
   ];
 
   # GNOME settings via dconf
@@ -50,7 +49,6 @@
         "dash-to-panel@jderose9.github.com"
         "appindicatorsupport@rgcjonas.gmail.com"
         "gnome-wireguard-extension@SJBERTRAND.github.com"
-        "system-monitor-tray@lsb.codes"
       ];
     };
   };
