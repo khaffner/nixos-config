@@ -7,7 +7,6 @@
 #   - Audio (PipeWire)
 #   - Steam gaming
 #   - Browsers (Edge, Chrome, Firefox)
-#   - Flatpak support
 #   - ThinkPad hardware optimizations
 
 { pkgs, ... }:
@@ -70,8 +69,7 @@
   };
   programs.gamemode.enable = true;  # Performance mode for games
 
-  # Flatpak support
-  services.flatpak.enable = true;
+  # XDG portals for GNOME
   xdg.portal = {
     enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-gnome ];  # GNOME integration
@@ -84,14 +82,8 @@
     vscode
     signal-desktop
     wireguard-tools
+    gnome-tweaks
+    rpi-imager
+    bitwarden-desktop
   ];
-
-  # Auto-add Flathub repository on first boot
-  system.activationScripts.flatpakSetup = {
-    text = ''
-      ${pkgs.flatpak}/bin/flatpak remote-add --if-not-exists flathub \
-        https://flathub.org/repo/flathub.flatpakrepo || true
-    '';
-    deps = [ ];
-  };
 }

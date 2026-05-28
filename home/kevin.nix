@@ -34,7 +34,10 @@
 
   # GNOME extensions - need both package here AND UUID in dconf below
   home.packages = with pkgs.gnomeExtensions; [
-    dash-to-panel  # UUID: dash-to-panel@jderose9.github.com
+    dash-to-panel              # UUID: dash-to-panel@jderose9.github.com
+    appindicator               # UUID: appindicatorsupport@rgcjonas.gmail.com
+    # Note: gnome-wireguard-extension and system-monitor-tray may need manual installation
+    # if not available in nixpkgs. Check: https://extensions.gnome.org
   ];
 
   # GNOME settings via dconf
@@ -44,20 +47,11 @@
     };
     "org/gnome/shell" = {
       enabled-extensions = [
-        "dash-to-panel@jderose9.github.com"  # Must match package above
+        "dash-to-panel@jderose9.github.com"
+        "appindicatorsupport@rgcjonas.gmail.com"
+        "gnome-wireguard-extension@SJBERTRAND.github.com"
+        "system-monitor-tray@lsb.codes"
       ];
-    };
-  };
-
-  # Declarative flatpak management
-  services.flatpak = {
-    packages = [
-      "org.raspberrypi.rpi-imager"
-      "com.bitwarden.desktop"
-    ];
-    update.auto = {
-      enable = true;
-      onCalendar = "weekly";  # Auto-update flatpaks weekly
     };
   };
 }
