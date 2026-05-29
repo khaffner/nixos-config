@@ -16,8 +16,8 @@
 
   # GNOME Desktop (with Wayland support)
   services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
 
   # Norwegian keyboard layout
   services.xserver.xkb.layout = "no";
@@ -81,6 +81,6 @@
     wireguard-tools
     gnome-tweaks
     rpi-imager
-    bitwarden-desktop
+    bitwarden-cli
   ];
 }

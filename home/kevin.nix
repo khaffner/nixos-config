@@ -12,9 +12,7 @@
 
 { pkgs, osConfig, ... }:
 
-let
-  hasGnome = osConfig.services.xserver.enable && osConfig.services.xserver.desktopManager.gnome.enable;
-in {
+{
   home.username = "kevin";
   home.homeDirectory = "/home/kevin";
 
@@ -35,14 +33,14 @@ in {
                    
 
   # GNOME extensions - conditionally included if GNOME is installed
-  home.packages = if hasGnome then with pkgs.gnomeExtensions; [
+  home.packages = if osConfig.services.desktopManager.gnome.enable then with pkgs.gnomeExtensions; [
     dash-to-panel
     appindicator
     wireguard-vpn-extension
   ] else [];
 
   # GNOME settings via dconf - conditionally applied if GNOME is installed
-  dconf.settings = if hasGnome then {
+  dconf.settings = if osConfig.services.desktopManager.gnome.enable then {
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";  # Dark mode
     };
