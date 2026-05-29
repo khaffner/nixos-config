@@ -27,7 +27,7 @@
   users.users.kevin = {
     isNormalUser = true;
     description = "Kevin";
-    extraGroups = [ "wheel" ];  # wheel = sudo access
+    extraGroups = [ "wheel" "docker" ];  # wheel = sudo access
     shell = pkgs.bash;
   };
 
@@ -46,7 +46,6 @@
     enable = true;
     enableOnBoot = true;
   };
-  users.users.kevin.extraGroups = [ "docker" ];
 
   environment.systemPackages = with pkgs; [
     git
