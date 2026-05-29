@@ -36,6 +36,12 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # ThinkPad hardware support
+  hardware.cpu.intel.updateMicrocode = true;  # CPU microcode updates
+  services.fwupd.enable = true;               # Firmware updates via fwupdmgr
+  services.thermald.enable = true;            # Intel thermal management
+  services.fprintd.enable = true;             # Fingerprint reader
+
   # Home Manager - manages user-level config (see home/kevin.nix)
   home-manager.useGlobalPkgs = true;      # Share system nixpkgs
   home-manager.useUserPackages = true;    # Install to /etc/profiles

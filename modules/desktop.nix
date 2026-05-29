@@ -1,13 +1,10 @@
-# Desktop Module - GNOME, Steam, browsers, ThinkPad hardware
-#
-# Only imported by: configuration-laptop.nix
+# Desktop Module - GNOME, Steam, browsers
 #
 # Provides:
 #   - GNOME desktop environment
 #   - Audio (PipeWire)
 #   - Steam gaming
 #   - Browsers (Edge, Chrome, Firefox)
-#   - ThinkPad hardware optimizations
 
 { pkgs, ... }:
 
@@ -52,14 +49,10 @@
 
   services.printing.enable = true;
 
-  # Intel ThinkPad hardware support
-  hardware.cpu.intel.updateMicrocode = true;  # CPU microcode updates
+  # Graphics and Bluetooth
   hardware.graphics.enable32Bit = true;       # 32-bit graphics for Steam
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
-  services.fwupd.enable = true;               # Firmware updates via fwupdmgr
-  services.thermald.enable = true;            # Intel thermal management
-  services.fprintd.enable = true;             # Fingerprint reader
 
   # Gaming - Steam
   programs.steam = {
