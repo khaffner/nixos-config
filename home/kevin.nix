@@ -32,15 +32,15 @@
   };                                                                                                                                                                                                                                         
                    
 
-  # GNOME extensions - need both package here AND UUID in dconf below
-  home.packages = with pkgs.gnomeExtensions; [
+  # GNOME extensions - conditionally included if GNOME is installed
+  home.packages = if config.services.xserver.enable && config.services.xserver.desktopManager.gnome.enable then with pkgs.gnomeExtensions; [
     dash-to-panel
     appindicator
     wireguard-vpn-extension
-  ];
+  ] else [];
 
-  # GNOME settings via dconf
-  dconf.settings = {
+  # GNOME settings via dconf - conditionally applied if GNOME is installed
+  dconf.settings = if config.services.xserver.enable && config.services.xserver.desktopManager.gnome.enable then {
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";  # Dark mode
     };
@@ -51,5 +51,5 @@
         "gnome-wireguard-extension@SJBERTRAND.github.com"
       ];
     };
-  };
+  } else {};
 }

@@ -41,10 +41,19 @@
     openDefaultPorts = true;  # 22000 TCP/UDP, 21027 UDP
   };
 
+  # Docker available on all machines
+  virtualisation.docker = {
+    enable = true;
+    enableOnBoot = true;
+  };
+  users.users.kevin.extraGroups = [ "docker" ];
+
   environment.systemPackages = with pkgs; [
     git
     btop
     openssh
     powershell
+    wget
+    curl
   ];
 }

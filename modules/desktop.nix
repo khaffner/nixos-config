@@ -37,6 +37,10 @@
     simple-scan
   ];
 
+  services.xserver.excludePackages = with pkgs; [
+    xterm
+  ];
+
   # Audio via PipeWire (replaces PulseAudio)
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;  # Realtime priority
