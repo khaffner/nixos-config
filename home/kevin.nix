@@ -10,9 +10,11 @@
 #   programs.bash.shellAliases - More shell aliases
 #   services.flatpak.packages - Add more flatpak apps
 
-{ pkgs, ... }:
+{ pkgs, osConfig, ... }:
 
-{
+let
+  hasGnome = osConfig.services.xserver.enable && osConfig.services.xserver.desktopManager.gnome.enable;
+in {
   home.username = "kevin";
   home.homeDirectory = "/home/kevin";
 
@@ -33,14 +35,14 @@
                    
 
   # GNOME extensions - conditionally included if GNOME is installed
-  home.packages = if config.services.xserver.enable && config.services.xserver.desktopManager.gnome.enable then with pkgs.gnomeExtensions; [
+  home.packages = if hasGnome then with pkgs.gnomeExtensions; [
     dash-to-panel
     appindicator
     wireguard-vpn-extension
   ] else [];
 
   # GNOME settings via dconf - conditionally applied if GNOME is installed
-  dconf.settings = if config.services.xserver.enable && config.services.xserver.desktopManager.gnome.enable then {
+  dconf.settings = if hasGnome then {
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";  # Dark mode
     };
