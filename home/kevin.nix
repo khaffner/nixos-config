@@ -50,6 +50,11 @@
         "appindicatorsupport@rgcjonas.gmail.com"
         "gnome-wireguard-extension@SJBERTRAND.github.com"
       ];
+      "favorite-apps" = [
+        "firefox.desktop"
+        "signal.desktop"
+        "org.gnome.Nautilus.desktop"
+      ];
     };
   } else {};
 }
