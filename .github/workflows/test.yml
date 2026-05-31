@@ -39,7 +39,8 @@ jobs:
 
     - name: Build ${{ matrix.host }} configuration
       run: |
-        # Dry-run build to validate configuration
+        # Add home-manager to NIX_PATH and dry-run build to validate configuration
+        export NIX_PATH="nixpkgs=channel:nixos-${{ steps.version.outputs.nixos_version }}:home-manager=$HOME/.nix-defexpr/channels/home-manager:$NIX_PATH"
         nix-build '<nixpkgs/nixos>' \
           -A system \
           -I nixos-config=./configuration-${{ matrix.host }}.nix \
@@ -47,7 +48,8 @@ jobs:
 
     - name: Check for syntax errors
       run: |
-        # Parse the configuration to catch Nix syntax errors
+        # Add home-manager to NIX_PATH and parse the configuration to catch Nix syntax errors
+        export NIX_PATH="nixpkgs=channel:nixos-${{ steps.version.outputs.nixos_version }}:home-manager=$HOME/.nix-defexpr/channels/home-manager:$NIX_PATH"
         nix-instantiate '<nixpkgs/nixos>' \
           -A system \
           -I nixos-config=./configuration-${{ matrix.host }}.nix \
