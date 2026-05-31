@@ -74,9 +74,6 @@ jobs:
 
     - name: Check Nix formatting
       run: |
-        # Install nixfmt
-        nix-env -iA nixpkgs.nixfmt-rfc-style
-        
         # Check if files are formatted (don't fail, just report)
         echo "Checking Nix file formatting..."
-        nixfmt --check **/*.nix || echo "Some files could be reformatted with nixfmt"
+        nix-shell -p nixfmt-rfc-style --run "nixfmt --check **/*.nix" || echo "Some files could be reformatted with nixfmt"
