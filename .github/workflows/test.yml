@@ -1,0 +1,82 @@
+name: Test NixOS Configurations
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        host: [T490, T570]
+      fail-fast: false  # Test both even if one fails
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Extract NixOS version
+      id: version
+      run: |
+        # Extract stateVersion from config
+        VERSION=$(grep -oP 'system\.stateVersion = "\K[0-9.]+' configuration-T570.nix)
+        echo "nixos_version=$VERSION" >> $GITHUB_OUTPUT
+        echo "Using NixOS version: $VERSION"
+
+    - name: Install Nix
+      uses: cachix/install-nix-action@v27
+      with:
+        nix_path: nixpkgs=channel:nixos-${{ steps.version.outputs.nixos_version }}
+
+    - name: Setup Home Manager channel
+      run: |
+        # Add home-manager to NIX_PATH for the build
+        nix-channel --add https://github.com/nix-community/home-manager/archive/release-${{ steps.version.outputs.nixos_version }}.tar.gz home-manager
+        nix-channel --update
+
+    - name: Build ${{ matrix.host }} configuration
+      run: |
+        # Dry-run build to validate configuration
+        nix-build '<nixpkgs/nixos>' \
+          -A system \
+          -I nixos-config=./configuration-${{ matrix.host }}.nix \
+          --dry-run
+
+    - name: Check for syntax errors
+      run: |
+        # Parse the configuration to catch Nix syntax errors
+        nix-instantiate '<nixpkgs/nixos>' \
+          -A system \
+          -I nixos-config=./configuration-${{ matrix.host }}.nix \
+          --show-trace
+
+  formatting:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Extract NixOS version
+      id: version
+      run: |
+        # Extract stateVersion from config
+        VERSION=$(grep -oP 'system\.stateVersion = "\K[0-9.]+' configuration-T570.nix)
+        echo "nixos_version=$VERSION" >> $GITHUB_OUTPUT
+        echo "Using NixOS version: $VERSION"
+
+    - name: Install Nix
+      uses: cachix/install-nix-action@v27
+      with:
+        nix_path: nixpkgs=channel:nixos-${{ steps.version.outputs.nixos_version }}
+
+    - name: Check Nix formatting
+      run: |
+        # Install nixfmt
+        nix-env -iA nixpkgs.nixfmt-rfc-style
+        
+        # Check if files are formatted (don't fail, just report)
+        echo "Checking Nix file formatting..."
+        nixfmt --check **/*.nix || echo "Some files could be reformatted with nixfmt"

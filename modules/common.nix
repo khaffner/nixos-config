@@ -47,8 +47,16 @@
     enableOnBoot = true;
   };
 
+  # Git with user configuration
+  programs.git = {
+    enable = true;
+    config = {
+      user.name = "Kevin Haffner";
+      user.email = "khaffner@gmail.com";
+    };
+  };
+
   environment.systemPackages = with pkgs; [
-    git
     btop
     openssh
     powershell

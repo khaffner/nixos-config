@@ -66,6 +66,10 @@
   };
   programs.gamemode.enable = true;  # Performance mode for games
 
+  # Programs with dedicated modules
+  programs.firefox.enable = true;
+  programs.vscode.enable = true;
+
   # XDG portals for GNOME
   xdg.portal = {
     enable = true;
@@ -75,12 +79,10 @@
   environment.systemPackages = with pkgs; [
     microsoft-edge
     google-chrome
-    firefox
-    vscode
     signal-desktop
     wireguard-tools
     gnome-tweaks
     rpi-imager
-    bitwarden-cli
+    bitwarden-desktop
   ];
 }
