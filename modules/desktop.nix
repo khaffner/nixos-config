@@ -83,6 +83,6 @@
     wireguard-tools
     gnome-tweaks
     rpi-imager
-    #bitwarden-desktop
+    #bitwarden-desktop # Has EOL electron version, waiting for update
   ];
 }
