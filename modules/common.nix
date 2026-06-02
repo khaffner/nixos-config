@@ -39,6 +39,7 @@
     dataDir = "/home/kevin";
     configDir = "/home/kevin/.config/syncthing";
     openDefaultPorts = true;  # 22000 TCP/UDP, 21027 UDP
+    extraFlags = [ "--no-default-folder" ]; # Don't create default ~/Sync folder
   };
 
   # Docker available on all machines
