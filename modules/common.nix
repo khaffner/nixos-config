@@ -58,9 +58,10 @@
 
   environment.systemPackages = with pkgs; [
     btop
-    openssh
-    powershell
     wget
     curl
+    iperf3
+    openssh
+    powershell
   ];
 }

@@ -77,12 +77,20 @@
   };
 
   environment.systemPackages = with pkgs; [
-    microsoft-edge
-    google-chrome
-    signal-desktop
-    wireguard-tools
-    gnome-tweaks
+    tlp
+    vlc
+    openssh
+    gparted
+    xarchiver
+    fastfetch
     rpi-imager
+    qbittorrent
+    gnome-tweaks
+    google-chrome
+    smartmontools
+    signal-desktop
+    microsoft-edge
+    wireguard-tools
     #bitwarden-desktop # Has EOL electron version, waiting for update
   ];
 }
