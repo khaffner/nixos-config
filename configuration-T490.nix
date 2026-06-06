@@ -21,6 +21,10 @@
   # Host-specific identity
   networking.hostName = "T490";
 
+  # Norwegian keyboard layout
+  services.xserver.xkb.layout = "no";
+  console.keyMap = "no";
+
   # T490 has a fingerprint reader.
   services.fprintd.enable = true;
 

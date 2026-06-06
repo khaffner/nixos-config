@@ -19,10 +19,6 @@
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
 
-  # Norwegian keyboard layout
-  services.xserver.xkb.layout = "no";
-  console.keyMap = "no";
-
   # Remove unwanted default GNOME apps
   environment.gnome.excludePackages = with pkgs; [
     epiphany
