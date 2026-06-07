@@ -2,13 +2,7 @@
 #
 # This manages user-level configuration (dotfiles, shell, GNOME settings).
 # Changes here apply after: sudo nixos-rebuild switch
-#
-# Useful options to add:
-#   programs.git.* - Git config (userName, userEmail, aliases)
-#   programs.vim.* or programs.neovim.* - Editor config
-#   programs.firefox.* - Browser bookmarks/settings
-#   programs.bash.shellAliases - More shell aliases
-#   services.flatpak.packages - Add more flatpak apps
+
 
 { pkgs, osConfig, ... }:
 

@@ -33,5 +33,4 @@ Edit files, then: `sudo nixos-rebuild switch`
 
 - `modules/` - Shared config modules
 - `home/` - Home Manager user config
-- `temp/` - Current live T570 config snapshots
 - See file comments for what each module provides
