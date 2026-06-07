@@ -2,33 +2,28 @@
 
 Multi-host NixOS configuration without flakes. Traditional channel-based setup with Home Manager.
 
-## Hosts
-
-- **configuration-T570.nix**
-- **configuration-T490.nix**
-
 ## Quick Start
 
-### 1) Add channels
+Run the setup script and select your host:
+
 ```bash
-sudo nix-channel --add https://github.com/nix-community/home-manager/archive/release-26.05.tar.gz home-manager
-sudo nix-channel --update
+sudo ./setup.sh
 ```
 
-### 2) Example T570 config
-```bash
-sudo ln -sf ~/code/nixos-config/configuration-T570.nix /etc/nixos/configuration.nix
-sudo ln -sf ~/code/nixos-config/hosts/T570/hardware-configuration.nix /etc/nixos/hardware-configuration.nix
-sudo ln -sf ~/code/nixos-config/modules /etc/nixos/modules
-sudo ln -sf ~/code/nixos-config/home /etc/nixos/home
-sudo nixos-rebuild switch
-```
+The script will:
+1. Add the home-manager channel
+2. Update channels
+3. Let you select a host interactively
+4. Create all necessary symlinks
+5. Optionally run `nixos-rebuild switch`
 
-### 3) Bring up T490 later
-- Use `configuration-T490.nix`
-- Generate hardware config on T490 and import that file in the T490 config
-- Add T490 bootloader and LUKS values in `configuration-T490.nix`
-- Then symlink `/etc/nixos/configuration.nix` to `configuration-T490.nix` and rebuild
+### Setting Up a New Host
+
+For a new machine:
+1. Generate hardware config: `sudo nixos-generate-config --show-hardware-config > hosts/NEWHOST/hardware-configuration.nix`
+2. Create `configuration-NEWHOST.nix` based on an existing config
+3. Add bootloader and LUKS values as needed
+4. Run `sudo ./setup.sh` and select the new host
 
 ## Making Changes
 

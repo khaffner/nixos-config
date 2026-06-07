@@ -11,6 +11,7 @@
     ./hosts/GPDMICROPC2/hardware-configuration.nix
     ./modules/common.nix
     ./modules/desktop.nix
+    ./modules/hardware.nix
     <home-manager/nixos>
   ];
 
@@ -27,15 +28,6 @@
 
   # Keep live swap LUKS device mapping
   boot.initrd.luks.devices."luks-7b3a601d-bd5c-4fbd-82ea-ba60adfaec7f".device = "/dev/disk/by-uuid/7b3a601d-bd5c-4fbd-82ea-ba60adfaec7f";
-
-  # Keep hardware support from current laptop profile
-  hardware.cpu.intel.updateMicrocode = true;
-  services.fwupd.enable = true;
-
-  # Home Manager user config
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
-  home-manager.users.kevin = import ./home/kevin.nix;
 
   system.stateVersion = "26.05";
 }

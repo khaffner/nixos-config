@@ -15,6 +15,7 @@
 
     ./modules/common.nix
     ./modules/desktop.nix
+    ./modules/hardware.nix
     <home-manager/nixos>
   ];
 
@@ -33,16 +34,6 @@
   # boot.loader.systemd-boot.enable = true;
   # boot.loader.efi.canTouchEfiVariables = true;
   # boot.initrd.luks.devices."luks-<uuid>".device = "/dev/disk/by-uuid/<uuid>";
-
-  # Keep hardware support from current laptop profile
-  hardware.cpu.intel.updateMicrocode = true;
-  services.fwupd.enable = true;
-  services.thermald.enable = true;
-
-  # Home Manager user config
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
-  home-manager.users.kevin = import ./home/kevin.nix;
 
   system.stateVersion = "26.05";
 }

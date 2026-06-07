@@ -65,4 +65,9 @@
     openssh
     powershell
   ];
+
+  # Home Manager user configuration
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+  home-manager.users.kevin = import ../home/kevin.nix;
 }
