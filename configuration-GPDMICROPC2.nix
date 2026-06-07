@@ -18,6 +18,9 @@
   # Host-specific identity
   networking.hostName = "GPDMICROPC2";
 
+  # GPDMICROPC2 has a fingerprint reader.
+  services.fprintd.enable = true;
+
   # US keyboard layout
   services.xserver.xkb.layout = "us";
   console.keyMap = "us";
