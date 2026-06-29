@@ -25,6 +25,11 @@
   services.xserver.xkb.layout = "us";
   console.keyMap = "us";
 
+  # Rotate screen
+  services.xserver.monitorSection = ''
+  Option "Rotate" "right"
+  '';
+
   # Keep live bootloader setup
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
