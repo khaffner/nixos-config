@@ -13,5 +13,4 @@
 
   # Thermal management for laptops
   services.thermald.enable = true;
-  services.tlp.enable = true;
 }
