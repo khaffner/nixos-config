@@ -25,7 +25,7 @@
   services.xserver.xkb.layout = "us";
   console.keyMap = "us";
 
-  # Rotate screen
+  # Rotate screen. Consider changing to kernelParams like this https://nixos.wiki/wiki/GPD_Pocket
   services.xserver.monitorSection = ''
   Option "Rotate" "right"
   '';
