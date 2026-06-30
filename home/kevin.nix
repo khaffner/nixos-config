@@ -31,6 +31,7 @@
     dash-to-panel
     appindicator
     wireguard-vpn-extension
+    no-overview
   ] else [];
 
   # GNOME settings via dconf - conditionally applied if GNOME is installed
@@ -43,6 +44,7 @@
         "dash-to-panel@jderose9.github.com"
         "appindicatorsupport@rgcjonas.gmail.com"
         "gnome-wireguard-extension@SJBERTRAND.github.com"
+        "no-overview@fthx"
       ];
       "favorite-apps" = [
         "firefox.desktop"
