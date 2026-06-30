@@ -25,10 +25,13 @@
   services.xserver.xkb.layout = "us";
   console.keyMap = "us";
 
-  # Rotate screen. Consider changing to kernelParams like this https://nixos.wiki/wiki/GPD_Pocket
-  services.xserver.monitorSection = ''
-  Option "Rotate" "right"
-  '';
+  # Internal panel (DSI-1) is physically mounted rotated 90°. Rotate at the kernel
+  # level so the boot console, GDM, and the GNOME/Wayland session all come up upright.
+  # (The old services.xserver.monitorSection only affected Xorg — ignored under Wayland.)
+  boot.kernelParams = [
+    "fbcon=rotate:1"                               # text console / early boot: 90° clockwise
+    "video=DSI-1:panel_orientation=right_side_up"  # DRM panel orientation: honored by Wayland + Xorg + GDM
+  ];
 
   # Keep live bootloader setup
   boot.loader.systemd-boot.enable = true;
