@@ -36,7 +36,7 @@ in
           owner = "libfprint";
           repo = "libfprint";
           rev = mafpRev;
-          hash = lib.fakeHash; # ← replace with the real hash (see header note)
+          hash = "sha256-HHh+I83UyFNYp/jFi5ouHx3UUN7woH1wS1Z1BIHhGaA=";
         };
 
         # The MR commit is newer than the pinned release and ships no test
