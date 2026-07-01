@@ -12,7 +12,7 @@
 #
 # Once the driver lands in nixpkgs: delete this file, drop the import, rebuild.
 
-{ lib, ... }:
+{ lib, pkgs, ... }:
 
 let
   # libfprint MR !580 head ("mafp-submission" branch), pinned by commit.
@@ -22,8 +22,25 @@ in
   # GPD MicroPC 2 fingerprint reader.
   services.fprintd.enable = true;
 
-  # Graphical login: GDM uses its own auto-generated `gdm-fingerprint` PAM
-  # stack (enabled for free by services.fprintd.enable), so nothing to set here.
+  # --- Expose the sensor to userspace -----------------------------------------
+  # The sensor is an SPI device behind ACPI HID MAFP8800. The kernel enumerates
+  # it on the SPI bus but binds no driver, so no /dev/spidev node appears and
+  # fprintd reports "No devices available". Force-bind it to spidev via udev,
+  # ensure the spidev module is loaded, and raise its buffer size for the
+  # driver's ~20 KB SPI transfers.
+  boot.kernelModules = [ "spidev" ];
+
+  boot.extraModprobeConfig = ''
+    options spidev bufsiz=32768
+  '';
+
+  services.udev.extraRules = ''
+    ACTION=="add|change", SUBSYSTEM=="spi", ENV{MODALIAS}=="acpi:MAFP8800:", RUN{builtin}+="kmod load spi:spidev", RUN+="${pkgs.bash}/bin/sh -c 'echo spidev > %S%p/driver_override && echo %k > %S%p/subsystem/drivers/spidev/bind'"
+  '';
+
+  # --- PAM ---------------------------------------------------------------------
+  # Graphical login: GDM uses its own auto-generated `gdm-fingerprint` PAM stack
+  # (enabled for free by services.fprintd.enable), so nothing to set here.
   # We only opt `sudo` into fingerprint auth; it falls back to password.
   #
   # NOTE: this makes `sudo` prompt for a finger first. Non-interactive/scripted
@@ -35,6 +52,7 @@ in
   # If you also want fingerprint on a TTY, use `lib.mkForce true` there.)
   security.pam.services.sudo.fprintAuth = true;
 
+  # --- Build libfprint with the mafp8800 driver -------------------------------
   nixpkgs.overlays = [
     (final: prev: {
       libfprint = prev.libfprint.overrideAttrs (old: {
