@@ -22,17 +22,18 @@ in
   # GPD MicroPC 2 fingerprint reader.
   services.fprintd.enable = true;
 
-  # Fingerprint auth for graphical login and sudo (falls back to password).
-  # GDM's fingerprint prompt uses the auto-generated `gdm-fingerprint` PAM
-  # service, so it needs nothing extra here.
+  # Graphical login: GDM uses its own auto-generated `gdm-fingerprint` PAM
+  # stack (enabled for free by services.fprintd.enable), so nothing to set here.
+  # We only opt `sudo` into fingerprint auth; it falls back to password.
   #
   # NOTE: this makes `sudo` prompt for a finger first. Non-interactive/scripted
   # sudo will wait for the swipe before falling back to the password prompt —
-  # flip `sudo.fprintAuth` to false if that gets in the way.
-  security.pam.services = {
-    login.fprintAuth = true;
-    sudo.fprintAuth = true;
-  };
+  # flip this to false if that gets in the way.
+  #
+  # (Deliberately NOT setting `login.fprintAuth`: that's the text-console getty
+  # login, and the GDM module pins it to false — setting it true conflicts.
+  # If you also want fingerprint on a TTY, use `lib.mkForce true` there.)
+  security.pam.services.sudo.fprintAuth = true;
 
   nixpkgs.overlays = [
     (final: prev: {
