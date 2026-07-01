@@ -8,7 +8,7 @@
 # This module builds libfprint from that MR's commit via an overlay; fprintd is
 # rebuilt against it automatically. nixpkgs already builds libfprint with
 # `-Ddrivers=all`, and the MR registers `mafp8800` in the meson driver list, so
-# no extra build flags are needed.
+# no extra build flags are needed to include the driver.
 #
 # Once the driver lands in nixpkgs: delete this file, drop the import, rebuild.
 
@@ -33,17 +33,16 @@ in
           hash = "sha256-HHh+I83UyFNYp/jFi5ouHx3UUN7woH1wS1Z1BIHhGaA=";
         };
 
-        # This commit (1.94.10) runs a Python test-introspection step at meson
-        # configure time that fails in the sandbox. We don't want the tests
-        # anyway, so drop the tests subdir. `--replace-fail` makes the build
-        # error loudly if this string ever moves (e.g. after the driver merges
-        # and this whole module should be deleted).
-        postPatch = (old.postPatch or "") + ''
-          substituteInPlace meson.build \
-            --replace-fail "subdir('tests')" "# tests disabled (temporary mafp8800 overlay)"
-        '';
+        # This commit runs a Python test-introspection step (unittest_inspector.py)
+        # at meson configure time that can't execute in the sandbox. That whole
+        # block is gated behind `introspection`, so turn it off. We don't need the
+        # FPrint GObject typelib: fprintd links libfprint via pkg-config (C), and
+        # its own test suite — the only consumer of the typelib — doesn't run
+        # (fprintd sets no doCheck). PAM/GNOME reach fprintd over D-Bus, not GIR.
+        mesonFlags = (old.mesonFlags or [ ]) ++ [ "-Dintrospection=false" ];
 
-        # Belt-and-suspenders: the in-tree checks are gone with the tests subdir.
+        # The MR ships no test fixtures for this driver and version drift can
+        # break the in-tree checks; skip them.
         doInstallCheck = false;
       });
     })
