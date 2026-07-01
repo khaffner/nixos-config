@@ -10,6 +10,11 @@
 
 {
 
+  # Graphical boot splash + graphical LUKS unlock
+  boot.plymouth.enable = true;
+  boot.initrd.systemd.enable = true;
+  boot.kernelParams = [ "quiet" "splash" "rd.udev.log_level=3" ];
+
   # Network management
   networking.networkmanager.enable = true;
   users.users.kevin.extraGroups = [ "networkmanager" ];
