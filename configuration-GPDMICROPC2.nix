@@ -12,14 +12,12 @@
     ./modules/common.nix
     ./modules/desktop.nix
     ./modules/hardware.nix
+    ./modules/fingerprint-mafp8800.nix # Temporary until proper/native support
     <home-manager/nixos>
   ];
 
   # Host-specific identity
   networking.hostName = "GPDMICROPC2";
-
-  # GPDMICROPC2 has a fingerprint reader.
-  services.fprintd.enable = true;
 
   # US keyboard layout
   services.xserver.xkb.layout = "us";
