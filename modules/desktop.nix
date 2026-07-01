@@ -6,13 +6,17 @@
 #   - Steam gaming
 #   - Browsers (Edge, Chrome, Firefox)
 
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
 
   # Network management
   networking.networkmanager.enable = true;
   users.users.kevin.extraGroups = [ "networkmanager" ];
+
+  # Default keyboard layout
+  services.xserver.xkb.layout = lib.mkDefault "no";
+  console.keyMap = lib.mkDefault "no";
 
   # GNOME Desktop (with Wayland support)
   services.xserver.enable = true;

@@ -18,10 +18,6 @@
   # Host-specific identity
   networking.hostName = "T570";
 
-  # Norwegian keyboard layout
-  services.xserver.xkb.layout = "no";
-  console.keyMap = "no";
-
   # Keep live bootloader setup
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
