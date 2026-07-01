@@ -75,7 +75,6 @@
   environment.systemPackages = with pkgs; [
     tlp
     vlc
-    openssh
     gparted
     xarchiver
     fastfetch
