@@ -11,12 +11,6 @@
 # no extra build flags are needed.
 #
 # Once the driver lands in nixpkgs: delete this file, drop the import, rebuild.
-#
-# ── Filling in the hash ────────────────────────────────────────────────────
-# The MR commit's source hash can't be known in advance. Leave `lib.fakeHash`
-# below for the first `nixos-rebuild`; it will fail with:
-#     error: hash mismatch ... got: sha256-XXXXXXXX...
-# Paste that `got:` value into `hash` and rebuild again.
 
 { lib, ... }:
 
@@ -39,9 +33,17 @@ in
           hash = "sha256-HHh+I83UyFNYp/jFi5ouHx3UUN7woH1wS1Z1BIHhGaA=";
         };
 
-        # The MR commit is newer than the pinned release and ships no test
-        # fixtures for this driver; skip the in-tree checks to avoid version
-        # drift breaking the build.
+        # This commit (1.94.10) runs a Python test-introspection step at meson
+        # configure time that fails in the sandbox. We don't want the tests
+        # anyway, so drop the tests subdir. `--replace-fail` makes the build
+        # error loudly if this string ever moves (e.g. after the driver merges
+        # and this whole module should be deleted).
+        postPatch = (old.postPatch or "") + ''
+          substituteInPlace meson.build \
+            --replace-fail "subdir('tests')" "# tests disabled (temporary mafp8800 overlay)"
+        '';
+
+        # Belt-and-suspenders: the in-tree checks are gone with the tests subdir.
         doInstallCheck = false;
       });
     })
