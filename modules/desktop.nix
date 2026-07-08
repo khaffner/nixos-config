@@ -63,10 +63,8 @@
   # WireGuard via NetworkManager for GNOME tray toggling.
   # Put your config under /etc/wireguard/ and import it with nmcli or the GNOME UI.
   networking.wireguard.enable = true;
+  networking.networkmanager.enable = true;
   programs.nm-applet.enable = true;
-  networking.networkmanager.plugins = with pkgs; [
-    networkmanager-wireguard
-  ];
 
   # Graphics and Bluetooth
   hardware.graphics.enable32Bit = true;       # 32-bit graphics for Steam
@@ -103,6 +101,7 @@
     google-chrome
     signal-desktop
     microsoft-edge
+    wireguard-tools
     #bitwarden-desktop # Has EOL electron version, waiting for update
   ];
 }
