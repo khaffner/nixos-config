@@ -57,7 +57,7 @@
   };
 
   services.printing.enable = true;
-  services.tlp.enable = true;
+  services.power-profiles-daemon.enable = true;
   services.smartd.enable = true;
 
   # WireGuard via NetworkManager for GNOME tray toggling.
