@@ -57,6 +57,16 @@
   };
 
   services.printing.enable = true;
+  services.tlp.enable = true;
+  services.smartd.enable = true;
+
+  # WireGuard via NetworkManager for GNOME tray toggling.
+  # Put your config under /etc/wireguard/ and import it with nmcli or the GNOME UI.
+  networking.wireguard.enable = true;
+  programs.nm-applet.enable = true;
+  networking.networkmanager.plugins = with pkgs; [
+    networkmanager-wireguard
+  ];
 
   # Graphics and Bluetooth
   hardware.graphics.enable32Bit = true;       # 32-bit graphics for Steam
@@ -82,7 +92,6 @@
   };
 
   environment.systemPackages = with pkgs; [
-    tlp
     vlc
     gparted
     xarchiver
@@ -92,10 +101,8 @@
     qbittorrent
     gnome-tweaks
     google-chrome
-    smartmontools
     signal-desktop
     microsoft-edge
-    wireguard-tools
     #bitwarden-desktop # Has EOL electron version, waiting for update
   ];
 }
