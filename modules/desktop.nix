@@ -88,6 +88,7 @@
     xarchiver
     fastfetch
     rpi-imager
+    firefoxpwa
     qbittorrent
     gnome-tweaks
     google-chrome
@@ -95,6 +96,6 @@
     signal-desktop
     microsoft-edge
     wireguard-tools
-    #bitwarden-desktop # Has EOL electron version, waiting for update
+    bitwarden-desktop # Has EOL electron version, waiting for update
   ];
 }
