@@ -29,7 +29,7 @@
   # GNOME extensions - conditionally included if GNOME is installed
   home.packages = if osConfig.services.desktopManager.gnome.enable then with pkgs.gnomeExtensions; [
     dash-to-panel
-    appindicator
+    # appindicator
     wireguard-vpn-extension
     no-overview
   ] else [];
@@ -42,7 +42,7 @@
     "org/gnome/shell" = {
       enabled-extensions = [
         "dash-to-panel@jderose9.github.com"
-        "appindicatorsupport@rgcjonas.gmail.com"
+        # "appindicatorsupport@rgcjonas.gmail.com"
         "gnome-wireguard-extension@SJBERTRAND.github.com"
         "no-overview@fthx"
       ];
