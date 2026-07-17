@@ -13,7 +13,7 @@
     ./modules/desktop.nix
     ./modules/htpc.nix
     ./modules/hardware.nix
-    ./modules/fingerprint-mafp8800.nix # Temporary until proper/native support
+    #./modules/fingerprint-mafp8800.nix # Temporary until proper/native support
     <home-manager/nixos>
   ];
 
