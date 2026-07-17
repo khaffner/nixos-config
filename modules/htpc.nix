@@ -9,13 +9,9 @@
 { pkgs, ... }:
 
 {
-  # Keep the regular GNOME login path intact and let the user choose
-  # the dedicated HTPC account from GDM when they want Kodi.
-  services.displayManager.autoLogin.enable = false;
-
   # Dedicated account for couch/TV use.
-  # Use a temporary initial password so GDM can list and authenticate
-  # the account cleanly. Change it after first login.
+  # Use a temporary password so GDM can list and authenticate the
+  # account cleanly. Change it after first login.
   users.users.htpc = {
     isNormalUser = true;
     createHome = true;
@@ -23,7 +19,7 @@
     home = "/home/htpc";
     extraGroups = [ "audio" "video" ];
     shell = pkgs.bash;
-    initialPassword = "htpc";
+    password = "htpc";
   };
 
   # Media center components for Kodi + CEC remote support
