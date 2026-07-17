@@ -25,6 +25,5 @@
   environment.systemPackages = with pkgs; [
     kodi
     libcec
-    cec-utils
   ];
 }
