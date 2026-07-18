@@ -102,5 +102,6 @@
     microsoft-edge
     wireguard-tools
     #bitwarden-desktop # Has EOL electron version, waiting for update
+    nixos-artwork.wallpapers.binary-black
   ];
 }
