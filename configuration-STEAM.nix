@@ -7,7 +7,7 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      /etc/nixos/hosts/STEAM/hardware-configuration.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
