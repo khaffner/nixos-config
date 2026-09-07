@@ -72,6 +72,8 @@
   # (intel/amdgpu/nvidia) if you passthrough a GPU.
   services.xserver.videoDrivers = [ "modesetting" "qxl" "amdgpu" ];
 
+  nixpkgs.config.allowUnfree = true;  # Allow proprietary software such as Steam
+
   # Gaming - Steam
   programs.steam = {
     enable = true;
