@@ -8,13 +8,13 @@
 
 {
   imports = [
-    ./hosts/GPDMICROPC2/hardware-configuration.nix
-    ./modules/common.nix
-    ./modules/gnome_light.nix
-    ./modules/desktop.nix
-    ./modules/hardware.nix
-    ./modules/gaming.nix
-    #./modules/fingerprint-mafp8800.nix # Temporary until proper/native support
+    /etc/nixos/hosts/GPDMICROPC2/hardware-configuration.nix
+    /etc/nixos/modules/common.nix
+    /etc/nixos/modules/gnome_light.nix
+    /etc/nixos/modules/desktop.nix
+    /etc/nixos/modules/hardware.nix
+    /etc/nixos/modules/gaming.nix
+    #/etc/nixos/modules/fingerprint-mafp8800.nix # Temporary until proper/native support
     <home-manager/nixos>
   ];
 

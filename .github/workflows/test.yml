@@ -54,13 +54,19 @@ jobs:
         nix-channel --add https://github.com/nix-community/home-manager/archive/release-${{ steps.version.outputs.nixos_version }}.tar.gz home-manager
         nix-channel --update
 
+    - name: Prepare /etc/nixos
+      run: |
+        sudo mkdir -p /etc/nixos
+        sudo tar -C "$GITHUB_WORKSPACE" -cf - . | sudo tar -C /etc/nixos -xf -
+        ls -1 /etc/nixos | head
+
     - name: Build ${{ matrix.host }} configuration
       run: |
         # Add home-manager to NIX_PATH and dry-run build to validate configuration
         export NIX_PATH="nixpkgs=channel:nixos-${{ steps.version.outputs.nixos_version }}:home-manager=$HOME/.nix-defexpr/channels/home-manager:$NIX_PATH"
         nix-build '<nixpkgs/nixos>' \
           -A system \
-          -I nixos-config=./configuration-${{ matrix.host }}.nix \
+          -I nixos-config=/etc/nixos/configuration-${{ matrix.host }}.nix \
           --dry-run
 
     - name: Check for syntax errors
@@ -69,7 +75,7 @@ jobs:
         export NIX_PATH="nixpkgs=channel:nixos-${{ steps.version.outputs.nixos_version }}:home-manager=$HOME/.nix-defexpr/channels/home-manager:$NIX_PATH"
         nix-instantiate '<nixpkgs/nixos>' \
           -A system \
-          -I nixos-config=./configuration-${{ matrix.host }}.nix \
+          -I nixos-config=/etc/nixos/configuration-${{ matrix.host }}.nix \
           --show-trace
 
   formatting:

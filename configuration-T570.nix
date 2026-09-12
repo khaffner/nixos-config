@@ -8,12 +8,12 @@
 
 {
   imports = [
-    ./hosts/T570/hardware-configuration.nix
-    ./modules/common.nix
-    ./modules/gnome_light.nix
-    ./modules/desktop.nix
-    ./modules/hardware.nix
-    ./modules/gaming.nix
+    /etc/nixos/hosts/T570/hardware-configuration.nix
+    /etc/nixos/modules/common.nix
+    /etc/nixos/modules/gnome_light.nix
+    /etc/nixos/modules/desktop.nix
+    /etc/nixos/modules/hardware.nix
+    /etc/nixos/modules/gaming.nix
     <home-manager/nixos>
   ];
 
