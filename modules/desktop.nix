@@ -1,92 +1,28 @@
-# Desktop Module - GNOME, Steam, browsers
+# Desktop Module - non-GNOME desktop extras
 #
 # Provides:
-#   - GNOME desktop environment
-#   - Audio (PipeWire)
-#   - Steam gaming
-#   - Browsers (Edge, Chrome, Firefox)
+#   - Boot/graphics defaults for desktop hosts
+#   - Steam gaming setup
+#   - Browsers and desktop apps
+#
+# The GNOME-specific setup lives in gnome_light.nix so a host can opt into a
+# clean GNOME desktop without the extra desktop applications stack.
 
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 
 {
-
   # Graphical boot splash + graphical LUKS unlock
   boot.plymouth.enable = true;
   boot.initrd.systemd.enable = true;
   boot.kernelParams = [ "quiet" "splash" "rd.udev.log_level=3" ];
 
-  # Network management
-  networking.networkmanager.enable = true;
-  users.users.kevin.extraGroups = [ "networkmanager" ];
-
-  # Default keyboard layout
-  services.xserver.xkb.layout = lib.mkDefault "no";
-  console.keyMap = lib.mkDefault "no";
-
-  # GNOME Desktop (with Wayland support)
-  services.xserver.enable = true;
-  services.displayManager.gdm.enable = true;
-  services.desktopManager.gnome.enable = true;
-
-  # Remove unwanted default GNOME apps
-  environment.gnome.excludePackages = with pkgs; [
-    epiphany
-    geary
-    gnome-music
-    gnome-maps
-    gnome-weather
-    gnome-contacts
-    gnome-tour
-    gnome-characters
-    yelp
-    simple-scan
-  ];
-
-  services.xserver.excludePackages = with pkgs; [
-    xterm
-  ];
-
-  # Audio via PipeWire (replaces PulseAudio)
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;  # Realtime priority
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;  # For Steam games
-    pulse.enable = true;       # PulseAudio compatibility
-  };
-
-  services.printing.enable = true;
-  services.power-profiles-daemon.enable = true;
-  services.smartd.enable = true;
-
-  # WireGuard via NetworkManager for GNOME tray toggling.
-  # Put your config under /etc/wireguard/ and import it with nmcli or the GNOME UI.
-  networking.wireguard.enable = true;
-  programs.nm-applet.enable = true;
-
   # Graphics and Bluetooth
-  hardware.graphics.enable32Bit = true;       # 32-bit graphics for Steam
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
-
-  # Gaming - Steam
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
-  };
-  programs.gamemode.enable = true;  # Performance mode for games
 
   # Programs with dedicated modules
   programs.firefox.enable = true;
   programs.vscode.enable = true;
-
-  # XDG portals for GNOME
-  xdg.portal = {
-    enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gnome ];  # GNOME integration
-  };
 
   environment.systemPackages = with pkgs; [
     vlc
@@ -101,7 +37,7 @@
     signal-desktop
     microsoft-edge
     wireguard-tools
-    #bitwarden-desktop # Has EOL electron version, waiting for update
+    bitwarden-desktop # Has EOL electron version, waiting for update
     nixos-artwork.wallpapers.binary-black
   ];
 }

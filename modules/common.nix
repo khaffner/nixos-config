@@ -23,11 +23,14 @@
     options = "--delete-older-than 30d";   # Keep last 30 days
   };
 
+  # Network management
+  networking.networkmanager.enable = true;
+
   # User account - other modules add to extraGroups
   users.users.kevin = {
     isNormalUser = true;
     description = "Kevin";
-    extraGroups = [ "wheel" "docker" ];  # wheel = sudo access
+    extraGroups = [ "wheel" "docker" "networkmanager" ];  # wheel = sudo access
     shell = pkgs.bash;
   };
 
@@ -65,6 +68,10 @@
     openssh
     powershell
   ];
+
+  services.printing.enable = true;
+  services.power-profiles-daemon.enable = true;
+  services.smartd.enable = true;
 
   # Home Manager user configuration
   home-manager.useGlobalPkgs = true;

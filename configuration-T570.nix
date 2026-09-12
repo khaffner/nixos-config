@@ -10,8 +10,10 @@
   imports = [
     ./hosts/T570/hardware-configuration.nix
     ./modules/common.nix
+    ./modules/gnome_light.nix
     ./modules/desktop.nix
     ./modules/hardware.nix
+    ./modules/gaming.nix
     <home-manager/nixos>
   ];
 

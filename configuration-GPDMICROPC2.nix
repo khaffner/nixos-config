@@ -10,8 +10,10 @@
   imports = [
     ./hosts/GPDMICROPC2/hardware-configuration.nix
     ./modules/common.nix
+    ./modules/gnome_light.nix
     ./modules/desktop.nix
     ./modules/hardware.nix
+    ./modules/gaming.nix
     #./modules/fingerprint-mafp8800.nix # Temporary until proper/native support
     <home-manager/nixos>
   ];
