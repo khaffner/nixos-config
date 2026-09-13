@@ -13,8 +13,6 @@
     enable32Bit = true;
   };
 
-  hardware.graphics.enable32Bit = true;
-
   # Video drivers: include modesetting and qxl (useful for VMs); add specific drivers
   # (intel/amdgpu/nvidia) if you passthrough a GPU.
   services.xserver.videoDrivers = [ "modesetting" "qxl" "amdgpu" ];
