@@ -25,7 +25,28 @@
     user = "kevin";
   };
 
+  systemd.targets.sleep.enable = false;
+  systemd.targets.suspend.enable = false;
+  systemd.targets.hibernate.enable = false;
+  systemd.targets.hybrid-sleep.enable = false;
+
+  environment.systemPackages = [ pkgs.gnome-power-manager ];
+
   home-manager.users.kevin = {
+    dconf.settings = {
+      "org/gnome/desktop/session" = {
+        idle-delay = "uint32 0";
+      };
+      "org/gnome/desktop/screensaver" = {
+        lock-enabled = false;
+      };
+      "org/gnome/settings-daemon/plugins/power" = {
+        sleep-inactive-ac-type = "nothing";
+        sleep-inactive-battery-type = "nothing";
+        power-button-action = "nothing";
+      };
+    };
+
     systemd.user.services.steam-autostart = {
       Unit = {
         Description = "Launch Steam after login";
