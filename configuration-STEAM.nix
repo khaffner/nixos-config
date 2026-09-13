@@ -26,16 +26,24 @@
   };
 
   home-manager.users.kevin = {
-    home.file.".config/autostart/steam.desktop".text = ''
-      [Desktop Entry]
-      Type=Application
-      Name=Steam
-      Exec=steam -silent
-      Terminal=false
-      Categories=Game;
-      StartupNotify=false
-      X-GNOME-Autostart-enabled=true
-    '';
+    systemd.user.services.steam-autostart = {
+      Unit = {
+        Description = "Launch Steam after login";
+        After = [ "graphical-session.target" ];
+        Wants = [ "graphical-session.target" ];
+      };
+
+      Install = {
+        WantedBy = [ "graphical-session.target" ];
+      };
+
+      Service = {
+        Type = "simple";
+        ExecStart = "${pkgs.steam}/bin/steam -silent";
+        Restart = "on-failure";
+        RestartSec = 5;
+      };
+    };
   };
 
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
