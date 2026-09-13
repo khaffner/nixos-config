@@ -8,9 +8,9 @@
 
 {
   # Graphics and 32-bit OpenGL support required by Steam
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport32Bit = true;
+    enable32Bit = true;
   };
 
   hardware.graphics.enable32Bit = true;
