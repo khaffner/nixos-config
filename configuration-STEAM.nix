@@ -39,7 +39,7 @@
 
       Service = {
         Type = "simple";
-        ExecStart = "${pkgs.steam}/bin/steam -silent";
+        ExecStart = "${pkgs.bash}/bin/bash -c 'sleep 5; exec ${pkgs.steam}/bin/steam -silent'";
         Restart = "on-failure";
         RestartSec = 5;
       };
