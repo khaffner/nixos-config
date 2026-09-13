@@ -20,6 +20,24 @@
 
   networking.hostName = "STEAM"; # Define your hostname.
 
+  services.displayManager.autoLogin = {
+    enable = true;
+    user = "kevin";
+  };
+
+  home-manager.users.kevin = {
+    home.file.".config/autostart/steam.desktop".text = ''
+      [Desktop Entry]
+      Type=Application
+      Name=Steam
+      Exec=steam -silent
+      Terminal=false
+      Categories=Game;
+      StartupNotify=false
+      X-GNOME-Autostart-enabled=true
+    '';
+  };
+
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "26.05"; # Did you read the comment? DO NOT EDIT
 
