@@ -18,6 +18,14 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # AMD GPU passthrough guest: make sure the firmware for the passed-through card
+  # is available inside the VM and load the real GPU driver instead of virtual
+  # display drivers.
+  hardware.enableRedistributableFirmware = true;
+  boot.initrd.kernelModules = [ "amdgpu" ];
+  boot.kernelModules = [ "amdgpu" ];
+  services.xserver.videoDrivers = [ "amdgpu" ];
+
   networking.hostName = "STEAM"; # Define your hostname.
 
   services.displayManager.autoLogin = {
