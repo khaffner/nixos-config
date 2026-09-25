@@ -41,7 +41,7 @@
     enable = true;
     gamescopeSession.enable = true;
   };
-  services.displayManager.defaultSession = "steam-gamescope";
+  services.displayManager.defaultSession = "steam";
 
   systemd.targets.sleep.enable = false;
   systemd.targets.suspend.enable = false;
