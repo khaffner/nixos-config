@@ -31,17 +31,17 @@
 
   networking.hostName = "STEAM"; # Define your hostname.
 
-  # Remote-gaming-first desktop: use a real X11 desktop session and disable any
-  # lock/sleep behavior so the box stays ready for Steam remote play.
+  # Minimal X11 desktop for passthrough testing: avoid compositors, lock managers,
+  # and desktop policies that can interfere with the passed-through GPU.
   services.xserver.enable = true;
-  services.xserver.desktopManager.xfce.enable = true;
+  services.xserver.desktopManager.xterm.enable = false;
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = false;
   services.displayManager.autoLogin = {
     enable = true;
     user = "kevin";
   };
-  services.displayManager.defaultSession = "xfce";
+  services.displayManager.defaultSession = "x11";
 
   systemd.targets.sleep.enable = false;
   systemd.targets.suspend.enable = false;
@@ -51,20 +51,6 @@
   systemd.services."getty@tty1".enable = false;
 
   home-manager.users.kevin = {
-    xfconf.settings = {
-      "xfce4-power-manager" = {
-        "dpms-enabled" = false;
-        "lock-screen-suspend-hibernate" = false;
-        "inactivity-on-ac" = 0;
-        "inactivity-on-battery" = 0;
-        "blank-on-ac" = false;
-      };
-      "xfce4-screensaver" = {
-        "lock-enabled" = false;
-        "timeout" = 0;
-      };
-    };
-
     systemd.user.services.steam-autostart = {
       Unit = {
         Description = "Launch Steam after login";
