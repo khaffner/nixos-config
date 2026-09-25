@@ -26,6 +26,12 @@
   boot.kernelModules = [ "amdgpu" ];
   services.xserver.videoDrivers = [ "amdgpu" ];
 
+  # To avoid prompt for remote access with steam
+  services.xserver.displayManager.gdm.wayland = false;
+
+  # Just because it's a VM
+  services.qemuGuest.enable = true;
+
   networking.hostName = "STEAM"; # Define your hostname.
 
   services.displayManager.autoLogin = {
