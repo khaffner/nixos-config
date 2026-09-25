@@ -9,7 +9,7 @@
     [ # Include the results of the hardware scan.
       /etc/nixos/hosts/STEAM/hardware-configuration.nix
       /etc/nixos/modules/common.nix
-      /etc/nixos/modules/gnome_light.nix
+      #/etc/nixos/modules/gnome_light.nix
       /etc/nixos/modules/gaming.nix
       <home-manager/nixos>
     ];
