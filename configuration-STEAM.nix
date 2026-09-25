@@ -26,9 +26,6 @@
   boot.kernelModules = [ "amdgpu" ];
   services.xserver.videoDrivers = [ "amdgpu" ];
 
-  # To avoid prompt for remote access with steam
-  services.xserver.displayManager.gdm.wayland = false;
-
   # Just because it's a VM
   services.qemuGuest.enable = true;
 
@@ -38,6 +35,13 @@
     enable = true;
     user = "kevin";
   };
+
+  # To make sure remote gaming works
+  programs.steam = {
+    enable = true;
+    gamescopeSession.enable = true;
+  };
+  services.displayManager.defaultSession = "steam-gamescope";
 
   systemd.targets.sleep.enable = false;
   systemd.targets.suspend.enable = false;
