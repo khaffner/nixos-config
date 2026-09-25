@@ -31,15 +31,17 @@
 
   networking.hostName = "STEAM"; # Define your hostname.
 
-  # Remote-gaming-first desktop: use a lightweight session manager and disable any
+  # Remote-gaming-first desktop: use a real X11 desktop session and disable any
   # lock/sleep behavior so the box stays ready for Steam remote play.
   services.xserver.enable = true;
+  services.xserver.desktopManager.xfce.enable = true;
   services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.wayland.enable = false;
   services.displayManager.autoLogin = {
     enable = true;
     user = "kevin";
   };
-  services.displayManager.defaultSession = "steam";
+  services.displayManager.defaultSession = "xfce";
 
   systemd.targets.sleep.enable = false;
   systemd.targets.suspend.enable = false;
