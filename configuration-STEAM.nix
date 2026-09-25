@@ -9,8 +9,8 @@
     [ # Include the results of the hardware scan.
       /etc/nixos/hosts/STEAM/hardware-configuration.nix
       /etc/nixos/modules/common.nix
-      #/etc/nixos/modules/gnome_light.nix
       /etc/nixos/modules/gaming.nix
+      /etc/nixos/modules/ssh-server.nix
       <home-manager/nixos>
     ];
 
@@ -31,15 +31,13 @@
 
   networking.hostName = "STEAM"; # Define your hostname.
 
+  # Remote-gaming-first desktop: use a lightweight session manager and disable any
+  # lock/sleep behavior so the box stays ready for Steam remote play.
+  services.xserver.enable = true;
+  services.displayManager.sddm.enable = true;
   services.displayManager.autoLogin = {
     enable = true;
     user = "kevin";
-  };
-
-  # To make sure remote gaming works
-  programs.steam = {
-    enable = true;
-    gamescopeSession.enable = true;
   };
   services.displayManager.defaultSession = "steam";
 
@@ -48,23 +46,9 @@
   systemd.targets.hibernate.enable = false;
   systemd.targets.hybrid-sleep.enable = false;
 
-  environment.systemPackages = [ pkgs.gnome-power-manager ];
+  systemd.services."getty@tty1".enable = false;
 
   home-manager.users.kevin = {
-    dconf.settings = {
-      "org/gnome/desktop/session" = {
-        idle-delay = "uint32 0";
-      };
-      "org/gnome/desktop/screensaver" = {
-        lock-enabled = false;
-      };
-      "org/gnome/settings-daemon/plugins/power" = {
-        sleep-inactive-ac-type = "nothing";
-        sleep-inactive-battery-type = "nothing";
-        power-button-action = "nothing";
-      };
-    };
-
     systemd.user.services.steam-autostart = {
       Unit = {
         Description = "Launch Steam after login";
