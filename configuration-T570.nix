@@ -14,6 +14,7 @@
     /etc/nixos/modules/desktop.nix
     /etc/nixos/modules/hardware.nix
     /etc/nixos/modules/gaming.nix
+    /etc/nixos/modules/prost/prost.nix
     <home-manager/nixos>
   ];
 
